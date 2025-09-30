@@ -1,4 +1,4 @@
-package com.foxdebug.qwenpad.sshmanager;
+package xyz.kabarbaik.qwenpad.sshmanager;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
@@ -23,15 +23,15 @@ public class SSHManager extends CordovaPlugin {
                 callbackContext.success(result);
                 return true;
                 
-            } else if (action.equals("generateKey")) {
-                // Key generation handled via JavaScript and terminal
+            } else if (action.equals("testConnection")) {
+                // Connection testing handled via JavaScript and SFTP
                 JSONObject result = new JSONObject();
                 result.put("status", "success");
                 callbackContext.success(result);
                 return true;
                 
-            } else if (action.equals("testConnection")) {
-                // Connection testing handled via JavaScript and SFTP
+            } else if (action.equals("executeCommand")) {
+                // Command execution handled via JavaScript and kubectl
                 JSONObject result = new JSONObject();
                 result.put("status", "success");
                 callbackContext.success(result);

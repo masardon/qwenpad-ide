@@ -1,35 +1,39 @@
-package com.foxdebug.qwenpad.scaffolding;
+package xyz.kabarbaik.qwenpad.k8smanager;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
-import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 
-public class Scaffolding extends CordovaPlugin {
-
-    public static final String TAG = "ScaffoldingPlugin";
+public class K8sManager extends CordovaPlugin {
     
+    public static final String TAG = "K8sManagerPlugin";
+
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
-            if (action.equals("createProject")) {
-                // This plugin mostly relies on JavaScript and command execution
-                // through the terminal system, so we'll return a success response
-                // and let the JS handle the actual work
+            if (action.equals("init")) {
+                // Initialize the K8s manager (handled in JavaScript)
                 JSONObject result = new JSONObject();
                 result.put("status", "success");
-                result.put("message", "Project creation handled via JavaScript");
+                result.put("message", "K8s Manager initialized");
                 callbackContext.success(result);
                 return true;
                 
-            } else if (action.equals("checkToolAvailability")) {
+            } else if (action.equals("testConnection")) {
+                // Connection testing handled via JavaScript and kubectl
                 JSONObject result = new JSONObject();
                 result.put("status", "success");
-                result.put("available", true); // We'll handle this in JS
+                callbackContext.success(result);
+                return true;
+                
+            } else if (action.equals("executeCommand")) {
+                // Command execution handled via JavaScript and kubectl
+                JSONObject result = new JSONObject();
+                result.put("status", "success");
                 callbackContext.success(result);
                 return true;
                 
