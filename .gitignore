@@ -1,34 +1,34 @@
 # Cordova/PhoneGap
-platforms/
-plugins/
-hooks/
+#platforms/
+#plugins/
+#hooks/
 
 # Node.js
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+#npm-debug.log*
+#yarn-debug.log*
+#yarn-error.log*
+#.pnpm-debug.log*
 
 # Build files
-*.apk
-*.ipa
+#*.apk
+#*.ipa
 
 # IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+#.vscode/
+#.idea/
+#*.swp
+#*.swo
 
 # Termux specific
 .DS_Store
 Thumbs.db
 
 # Environment variables
-.env
-.env.local
-.env.*.local
+#.env
+#.env.local
+#.env.*.local
 
 # Logs
-logs
-*.log
+#logs
+#*.log

@@ -66,7 +66,7 @@ QwenPad IDE is a comprehensive mobile development environment that combines code
 
 ## Architecture
 
-Enhanced Acode is built using Apache Cordova, leveraging web technologies (HTML, CSS, JavaScript) to create a native Android application. The architecture includes:
+QwenPad IDE is built using Apache Cordova, leveraging web technologies (HTML, CSS, JavaScript) to create a native Android application. The architecture includes:
 
 - **Core Editor**: Based on the Ace editor with extensive customization
 - **Terminal System**: Cordova plugins for executing shell commands in sandboxed environments
@@ -91,10 +91,10 @@ For development:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-repo/enhanced-acode.git
+git clone https://github.com/masardon/qwenpad-ide.git
 
 # Navigate to project directory
-cd enhanced-acode
+cd qwenpad-ide
 
 # Install dependencies
 npm install
@@ -144,7 +144,7 @@ npx cordova run android
 
 ## Contributing
 
-We welcome contributions to Enhanced Acode! Please see our contributing guidelines for more information.
+We welcome contributions to QwenPad IDE! Please see our contributing guidelines for more information.
 
 ## License
 

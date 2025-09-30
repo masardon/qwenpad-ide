@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android" id="com.foxdebug.qwenpad.scaffolding" version="1.0.0">
+    <name>QwenPad Scaffolding</name>
+   
+    <js-module name="Scaffolding" src="www/scaffolding.js">
+        <clobbers target="window.Scaffolding" />
+    </js-module>
+
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="Scaffolding">
+                <param name="android-package" value="com.foxdebug.qwenpad.scaffolding.Scaffolding" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml" />
+        
+        <source-file src="src/android/Scaffolding.java" target-dir="src/com/foxdebug/qwenpad/scaffolding" />
+    </platform>
+</plugin>
