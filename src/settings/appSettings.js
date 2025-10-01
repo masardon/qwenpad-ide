@@ -20,6 +20,18 @@ export default function otherSettings() {
 	const title = strings["app settings"].capitalize();
 	const items = [
 		{
+			key: "aiSettings",
+			text: "AI Settings",
+			info: "Configure Qwen Coder integration for AI-powered assistance",
+			onclick: () => import('./ai/ai-settings.js').then(module => module.default()),
+		},
+		{
+			key: "contextSettings",
+			text: "Context Management",
+			info: "Configure how AI understands your project and coding context",
+			onclick: () => import('./ai/context-settings.js').then(module => module.default()),
+		},
+		{
 			key: "retryRemoteFsAfterFail",
 			text: strings["retry ftp/sftp when fail"],
 			checkbox: values.retryRemoteFsAfterFail,
@@ -194,6 +206,14 @@ export default function otherSettings() {
 
 	async function callback(key, value) {
 		switch (key) {
+			case "aiSettings":
+				import('./ai/ai-settings.js').then(module => module.default());
+				return;
+				
+			case "contextSettings":
+				import('./ai/context-settings.js').then(module => module.default());
+				return;
+				
 			case "keybindings": {
 				if (value === "edit") {
 					actionStack.pop(2);

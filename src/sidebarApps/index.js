@@ -83,6 +83,7 @@ async function loadApps() {
 		add(...(await import("./qwenpad-features/dependency-manager")).default);
 		add(...(await import("./qwenpad-features/ssh-manager")).default);
 		add(...(await import("./qwenpad-features/k8s-manager")).default);
+		add(...(await import("./ai/ai-assistant")).default);
 	} catch (e) {
 		console.warn("Could not load QwenPad IDE features:", e);
 	}
