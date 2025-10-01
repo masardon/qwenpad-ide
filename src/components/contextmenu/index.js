@@ -1,6 +1,103 @@
 import "./style.scss";
 import actionStack from "lib/actionStack";
 
+// Enhanced context menu styling
+const CONTEXT_MENU_STYLES = `
+  .enhanced-context-menu {
+    position: fixed;
+    background: var(--context-menu-bg, #ffffff);
+    border: 1px solid var(--bdr-color);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    z-index: 10000;
+    min-width: 200px;
+    max-width: 300px;
+    animation: contextMenuSlideIn 0.2s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .enhanced-context-menu {
+      background: var(--context-menu-bg-dark, #2d2d2d);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+  }
+  
+  .enhanced-context-menu .menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+    font-size: 0.9em;
+  }
+  
+  .enhanced-context-menu .menu-item:hover {
+    background-color: var(--hover-bg, #f8f9fa);
+  }
+  
+  .enhanced-context-menu .menu-item.disabled {
+    color: var(--txt-disabled, #6c757d);
+    cursor: not-allowed;
+  }
+  
+  .enhanced-context-menu .menu-item.disabled:hover {
+    background-color: transparent;
+  }
+  
+  .enhanced-context-menu .menu-separator {
+    height: 1px;
+    background-color: var(--bdr-color);
+    margin: 4px 0;
+  }
+  
+  .enhanced-context-menu .menu-header {
+    padding: 8px 16px;
+    font-weight: bold;
+    font-size: 0.8em;
+    color: var(--txt-secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  @keyframes contextMenuSlideIn {
+    from { 
+      opacity: 0; 
+      transform: scale(0.95);
+    }
+    to { 
+      opacity: 1; 
+      transform: scale(1);
+    }
+  }
+  
+  .enhanced-context-menu.hide {
+    animation: contextMenuFadeOut 0.2s ease forwards;
+  }
+  
+  @keyframes contextMenuFadeOut {
+    from { 
+      opacity: 1; 
+      transform: scale(1);
+    }
+    to { 
+      opacity: 0; 
+      transform: scale(0.95);
+    }
+  }
+`;
+
+// Inject enhanced context menu styles
+if (!document.getElementById('enhanced-context-menu-styles')) {
+  const styleElement = tag('style', {
+    id: 'enhanced-context-menu-styles',
+    textContent: CONTEXT_MENU_STYLES
+  });
+  document.head.appendChild(styleElement);
+}
+
 /**
  * @typedef {object} ContextMenuObj
  * @extends HTMLElement
@@ -40,7 +137,7 @@ export default function Contextmenu(content, options) {
 	}
 
 	const $el = tag("ul", {
-		className: "context-menu scroll",
+		className: "context-menu scroll enhanced-context-menu",
 		innerHTML: content || "",
 		onclick(e) {
 			if (options.onclick) options.onclick.call(this, e);

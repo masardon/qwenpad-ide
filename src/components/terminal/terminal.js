@@ -62,8 +62,8 @@ export default class TerminalComponent {
 		this.serverMode = options.serverMode !== false; // Default true
 		this.touchSelection = null;
 
-		this.init();
-	}
+		// Initialize enhanced features
+		this._initializeEnhancedFeatures();
 
 	init() {
 		this.terminal = new Xterm(this.options);
@@ -998,3 +998,6 @@ TerminalComponent.prototype._handleWebglContextLoss = function () {
 		console.error("Error handling WebGL context loss:", e);
 	}
 };
+
+// Export the TerminalComponent class
+export default TerminalComponent;

@@ -5,6 +5,108 @@ import actionStack from "lib/actionStack";
 import auth, { loginEvents } from "lib/auth";
 import constants from "lib/constants";
 
+// Enhanced sidebar styling
+const enhancedStyles = `
+  .sidebar-app-icons-container .icon.robot {
+    color: #4CAF50;
+  }
+  
+  .sidebar-app-icons-container .icon.cloud {
+    color: #2196F3;
+  }
+  
+  .sidebar-app-icons-container .icon.vpn_key {
+    color: #FF9800;
+  }
+  
+  .sidebar-app-icons-container .icon.language {
+    color: #9C27B0;
+  }
+  
+  .sidebar-app-icons-container .icon.desktop_windows {
+    color: #00BCD4;
+  }
+  
+  .sidebar-app .app-icon.robot {
+    background-color: rgba(76, 175, 80, 0.1);
+  }
+  
+  .sidebar-app .app-icon.cloud {
+    background-color: rgba(33, 150, 243, 0.1);
+  }
+  
+  .sidebar-app .app-icon.vpn_key {
+    background-color: rgba(255, 152, 0, 0.1);
+  }
+  
+  .sidebar-app .app-icon.language {
+    background-color: rgba(156, 39, 176, 0.1);
+  }
+  
+  .sidebar-app .app-icon.desktop_windows {
+    background-color: rgba(0, 188, 212, 0.1);
+  }
+  
+  /* Enhanced app styling */
+  .sidebar-app.enhanced {
+    border-left: 3px solid transparent;
+  }
+  
+  .sidebar-app.enhanced.active {
+    border-left: 3px solid var(--primary-color);
+  }
+  
+  /* Smooth transitions */
+  .sidebar-app {
+    transition: all 0.2s ease;
+  }
+  
+  .sidebar-app:hover {
+    transform: translateX(2px);
+  }
+  
+  /* Scrollbar styling */
+  .sidebar-app .scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .sidebar-app .scroll::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-bg, #f1f1f1);
+  }
+  
+  .sidebar-app .scroll::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-bg, #c1c1c1);
+    border-radius: 3px;
+  }
+  
+  .sidebar-app .scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-bg, #a1a1a1);
+  }
+  
+  /* Dark mode adjustments */
+  @media (prefers-color-scheme: dark) {
+    .sidebar-app .scroll::-webkit-scrollbar-track {
+      background: var(--scrollbar-track-bg-dark, #2d2d2d);
+    }
+    
+    .sidebar-app .scroll::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb-bg-dark, #555);
+    }
+    
+    .sidebar-app .scroll::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover-bg-dark, #777);
+    }
+  }
+`;
+
+// Inject enhanced sidebar styles
+if (!document.getElementById('enhanced-sidebar-styles')) {
+	const styleElement = tag('style', {
+		id: 'enhanced-sidebar-styles',
+		textContent: enhancedStyles
+	});
+	document.head.appendChild(styleElement);
+
 let $sidebar;
 /**@type {Array<(el:HTMLElement)=>boolean>} */
 let preventSlideTests = [];
