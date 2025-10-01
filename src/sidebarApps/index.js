@@ -84,8 +84,17 @@ async function loadApps() {
 		add(...(await import("./qwenpad-features/ssh-manager")).default);
 		add(...(await import("./qwenpad-features/k8s-manager")).default);
 		add(...(await import("./ai/ai-assistant")).default);
+		add(...(await import("./git/git-manager")).default);
+		add(...(await import("./remote/remote-file-manager")).default);
 	} catch (e) {
 		console.warn("Could not load QwenPad IDE features:", e);
+                add(...(await import("./ssh/ssh-key-manager")).default);
+                add(...(await import("./iac/iac-tools-manager")).default);
+                add(...(await import("./infrastructure/remote-execution-framework")).default);
+                add(...(await import("./iac/iac-tools-manager")).default);
+                add(...(await import("./kubernetes/k8s-dashboard")).default);
+                add(...(await import("./remote/remote-development-framework")).default);
+                add(...(await import("./cloud/cloud-provider-manager")).default);
 	}
 	
 	$apps.append(<span className="icon favorite" onclick={Sponsors} />);

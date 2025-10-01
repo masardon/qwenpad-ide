@@ -40,7 +40,9 @@
       "file:src/plugins/proot": {},
       "file:src/plugins/scaffolding": {},
       "file:src/plugins/ssh-manager": {},
-      "file:src/plugins/k8s-manager": {}
+      "file:src/plugins/k8s-manager": {},
+      "file:src/plugins/git": {},
+      "file:src/plugins/git": {}
     },
     "platforms": [
       "android"
@@ -83,6 +85,7 @@
     "xyz.kabarbaik.qwenpad.scaffolding": "file:src/plugins/scaffolding",
     "xyz.kabarbaik.qwenpad.sshmanager": "file:src/plugins/ssh-manager",
     "xyz.kabarbaik.qwenpad.k8smanager": "file:src/plugins/k8s-manager",
+    "xyz.kabarbaik.qwenpad.git": "file:src/plugins/git",
     "cordova-plugin-websocket": "file:src/plugins/websocket",
     "css-loader": "^7.1.2",
     "mini-css-extract-plugin": "^2.9.3",

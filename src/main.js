@@ -257,6 +257,16 @@ async function onDeviceReady() {
 				toast("Warning: QwenPad IDE features may not work properly");
 			}
 
+			// Initialize Git context menu integration
+			try {
+				const GitContextMenu = await import("./integrations/git-context-menu.js");
+				GitContextMenu.default.init();
+				window.log("info", "Git context menu integration initialized");
+			} catch (error) {
+				window.log("error", "Failed to initialize Git context menu integration:");
+				window.log("error", error);
+			}
+
 			// Check login status before emitting events
 			try {
 				const isLoggedIn = await auth.isLoggedIn();

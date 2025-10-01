@@ -2,7 +2,7 @@
 
 ## Overview
 
-QwenPad IDE is a comprehensive mobile development environment that combines code editing, terminal access, Git/SSH management, remote file editing, Kubernetes tools, Infrastructure as Code (IaC) integration, and AI-powered coding assistance. Built on the foundation of Acode, this enhanced version provides developers and cloud engineers with powerful tools to code, deploy, and manage applications from their Android tablets. Additionally, QwenPad IDE provides automated project scaffolding and dependency management for multiple programming languages and frameworks.
+QwenPad IDE is an enhanced version of ACode that transforms it into a comprehensive mobile development environment. Built on the foundation of Acode, this enhanced version provides developers with powerful tools for coding, infrastructure management, cloud development, and AI-powered assistance - all accessible from an Android tablet.
 
 ## Key Features
 
@@ -20,10 +20,13 @@ QwenPad IDE is a comprehensive mobile development environment that combines code
 
 ### 3. Advanced Dependency Management
 - Universal dependency management for multiple languages (Node.js, Python, Go, Rust, Java, Kotlin, Dart)
-- Automatic detection of project types and dependency files
+- Automatic project type detection and dependency file recognition
 - One-click install and update of project dependencies
 - Security scanning and vulnerability checking
 - Version conflict resolution
+- Outdated dependency detection
+- Special development environment tools (Android SDK/NDK/Platform tools, Flutter SDK, Docker CLI, Git and GitHub CLI, Java JDK, Node.js tools, Python tools, Go tools, Rust tools)
+- Multi-platform support with Termux integration
 
 ### 3. Termux Integration
 - Native integration with Termux for full Linux environment access
@@ -117,26 +120,32 @@ npx cordova run android
 - [x] Create plugin architecture
 
 ### Phase 2: AI Integration (Qwen Coder)
-- [ ] API integration layer
-- [ ] AI assistant UI
-- [ ] Context management
+- [x] API integration layer
+- [x] AI assistant UI
+- [x] Context management
 
 ### Phase 3: Git and Remote Management
-- [ ] Git plugin development
-- [ ] Remote file management
-- [ ] SSH key management
+- [x] Git plugin development
+- [x] Remote file management
+- [x] SSH key management
 
 ### Phase 4: Cloud & Infrastructure Tools
-- [ ] Kubernetes integration
-- [ ] IaC tools integration
-- [ ] Remote execution framework
+- [x] Kubernetes integration
+- [x] IaC tools integration
+- [x] Remote execution framework
 
 ### Phase 5: Advanced Features
-- [ ] Remote development capabilities
-- [ ] Cloud provider integration
-- [ ] Kubernetes resource management
+- [x] Remote development capabilities
+- [x] Cloud provider integration
+- [x] Kubernetes resource management
 
-### Phase 6: Polish & Testing
+### Phase 6: Enhanced Development Tools
+- [x] Enhanced dependency manager for special development tools (Android SDK, NDK, Platform tools)
+- [x] Extended support to other platform-specific tools for different languages
+- [x] Infrastructure as Code (IaC) tools integration
+- [x] SSH key management system
+
+### Phase 7: Polish & Testing
 - [ ] UI/UX enhancements
 - [ ] Performance optimization
 - [ ] Security review

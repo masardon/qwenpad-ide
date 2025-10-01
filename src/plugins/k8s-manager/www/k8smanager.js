@@ -325,6 +325,464 @@ const K8sManager = {
       console.error('Error initializing K8s manager:', error);
       throw error;
     }
+  },
+
+  /**
+   * Gets namespaces in the cluster
+   * @param {string} connectionId - Connection ID
+   * @returns {Promise<Array>} - Array of namespaces
+   */
+  async getNamespaces(connectionId) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      const command = await this._buildKubectlCommand(profile, 'get namespaces -o json');
+      const result = await Executor.execute(command);
+      
+      const namespaces = JSON.parse(result);
+      return namespaces.items.map(ns => ({
+        name: ns.metadata.name,
+        status: ns.status.phase,
+        created: ns.metadata.creationTimestamp
+      }));
+    } catch (error) {
+      console.error('Error getting namespaces:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Creates a namespace
+   * @param {string} connectionId - Connection ID
+   * @param {string} namespace - Namespace name
+   * @returns {Promise<boolean>} - Returns true if successful
+   */
+  async createNamespace(connectionId, namespace) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      const command = await this._buildKubectlCommand(profile, `create namespace ${namespace}`);
+      const result = await Executor.execute(command);
+      
+      return result.includes('created');
+    } catch (error) {
+      console.error('Error creating namespace:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Deletes a namespace
+   * @param {string} connectionId - Connection ID
+   * @param {string} namespace - Namespace name
+   * @returns {Promise<boolean>} - Returns true if successful
+   */
+  async deleteNamespace(connectionId, namespace) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      const command = await this._buildKubectlCommand(profile, `delete namespace ${namespace}`);
+      const result = await Executor.execute(command);
+      
+      return result.includes('deleted');
+    } catch (error) {
+      console.error('Error deleting namespace:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Gets nodes in the cluster
+   * @param {string} connectionId - Connection ID
+   * @returns {Promise<Array>} - Array of nodes
+   */
+  async getNodes(connectionId) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      const command = await this._buildKubectlCommand(profile, 'get nodes -o json');
+      const result = await Executor.execute(command);
+      
+      const nodes = JSON.parse(result);
+      return nodes.items.map(node => ({
+        name: node.metadata.name,
+        status: node.status.conditions.find(c => c.type === 'Ready')?.status === 'True' ? 'Ready' : 'NotReady',
+        roles: node.metadata.labels['kubernetes.io/role'] || 'node',
+        version: node.status.nodeInfo.kubeletVersion,
+        os: node.status.nodeInfo.osImage,
+        arch: node.status.nodeInfo.architecture,
+        created: node.metadata.creationTimestamp
+      }));
+    } catch (error) {
+      console.error('Error getting nodes:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Describes a resource
+   * @param {string} connectionId - Connection ID
+   * @param {string} resourceType - Resource type (pod, service, deployment, etc.)
+   * @param {string} resourceName - Resource name
+   * @param {string} [namespace] - Namespace
+   * @returns {Promise<object>} - Resource description
+   */
+  async describeResource(connectionId, resourceType, resourceName, namespace) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      let command = `describe ${resourceType} ${resourceName}`;
+      if (namespace) {
+        command += ` -n ${namespace}`;
+      }
+
+      const fullCommand = await this._buildKubectlCommand(profile, command);
+      const result = await Executor.execute(fullCommand);
+      
+      return {
+        name: resourceName,
+        type: resourceType,
+        namespace: namespace || 'default',
+        description: result
+      };
+    } catch (error) {
+      console.error('Error describing resource:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Gets logs for a pod
+   * @param {string} connectionId - Connection ID
+   * @param {string} podName - Pod name
+   * @param {string} [namespace] - Namespace
+   * @param {object} [options] - Log options
+   * @returns {Promise<string>} - Pod logs
+   */
+  async getPodLogs(connectionId, podName, namespace, options = {}) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      let command = `logs ${podName}`;
+      if (namespace) {
+        command += ` -n ${namespace}`;
+      }
+      
+      if (options.container) {
+        command += ` -c ${options.container}`;
+      }
+      
+      if (options.previous) {
+        command += ' --previous';
+      }
+      
+      if (options.tail) {
+        command += ` --tail=${options.tail}`;
+      }
+      
+      if (options.follow) {
+        command += ' -f';
+      }
+
+      const fullCommand = await this._buildKubectlCommand(profile, command);
+      const result = await Executor.execute(fullCommand);
+      
+      return result;
+    } catch (error) {
+      console.error('Error getting pod logs:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Executes a command in a pod
+   * @param {string} connectionId - Connection ID
+   * @param {string} podName - Pod name
+   * @param {string} command - Command to execute
+   * @param {string} [namespace] - Namespace
+   * @param {string} [container] - Container name
+   * @returns {Promise<string>} - Command output
+   */
+  async execInPod(connectionId, podName, command, namespace, container) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      let execCommand = `exec ${podName} -- ${command}`;
+      if (namespace) {
+        execCommand += ` -n ${namespace}`;
+      }
+      
+      if (container) {
+        execCommand += ` -c ${container}`;
+      }
+
+      const fullCommand = await this._buildKubectlCommand(profile, execCommand);
+      const result = await Executor.execute(fullCommand);
+      
+      return result;
+    } catch (error) {
+      console.error('Error executing command in pod:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Applies a configuration from a file
+   * @param {string} connectionId - Connection ID
+   * @param {string} filePath - Path to configuration file
+   * @param {string} [namespace] - Namespace
+   * @returns {Promise<string>} - Apply result
+   */
+  async applyConfig(connectionId, filePath, namespace) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      let command = `apply -f ${filePath}`;
+      if (namespace) {
+        command += ` -n ${namespace}`;
+      }
+
+      const fullCommand = await this._buildKubectlCommand(profile, command);
+      const result = await Executor.execute(fullCommand);
+      
+      return result;
+    } catch (error) {
+      console.error('Error applying configuration:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Deletes a resource
+   * @param {string} connectionId - Connection ID
+   * @param {string} resourceType - Resource type
+   * @param {string} resourceName - Resource name
+   * @param {string} [namespace] - Namespace
+   * @returns {Promise<string>} - Delete result
+   */
+  async deleteResource(connectionId, resourceType, resourceName, namespace) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      let command = `delete ${resourceType} ${resourceName}`;
+      if (namespace) {
+        command += ` -n ${namespace}`;
+      }
+
+      const fullCommand = await this._buildKubectlCommand(profile, command);
+      const result = await Executor.execute(fullCommand);
+      
+      return result;
+    } catch (error) {
+      console.error('Error deleting resource:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Scales a deployment
+   * @param {string} connectionId - Connection ID
+   * @param {string} deploymentName - Deployment name
+   * @param {number} replicas - Number of replicas
+   * @param {string} [namespace] - Namespace
+   * @returns {Promise<string>} - Scale result
+   */
+  async scaleDeployment(connectionId, deploymentName, replicas, namespace) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      let command = `scale deployment ${deploymentName} --replicas=${replicas}`;
+      if (namespace) {
+        command += ` -n ${namespace}`;
+      }
+
+      const fullCommand = await this._buildKubectlCommand(profile, command);
+      const result = await Executor.execute(fullCommand);
+      
+      return result;
+    } catch (error) {
+      console.error('Error scaling deployment:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Gets resource events
+   * @param {string} connectionId - Connection ID
+   * @param {string} resourceType - Resource type
+   * @param {string} resourceName - Resource name
+   * @param {string} [namespace] - Namespace
+   * @returns {Promise<Array>} - Array of events
+   */
+  async getResourceEvents(connectionId, resourceType, resourceName, namespace) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      let command = `get events --field-selector involvedObject.name=${resourceName},involvedObject.kind=${resourceType}`;
+      if (namespace) {
+        command += ` -n ${namespace}`;
+      }
+      command += ' -o json';
+
+      const fullCommand = await this._buildKubectlCommand(profile, command);
+      const result = await Executor.execute(fullCommand);
+      
+      const events = JSON.parse(result);
+      return events.items.map(event => ({
+        name: event.metadata.name,
+        type: event.type,
+        reason: event.reason,
+        message: event.message,
+        source: event.source.component,
+        count: event.count,
+        firstTimestamp: event.firstTimestamp,
+        lastTimestamp: event.lastTimestamp
+      }));
+    } catch (error) {
+      console.error('Error getting resource events:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Gets cluster events
+   * @param {string} connectionId - Connection ID
+   * @returns {Promise<Array>} - Array of cluster events
+   */
+  async getClusterEvents(connectionId) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      const command = await this._buildKubectlCommand(profile, 'get events -o json');
+      const result = await Executor.execute(command);
+      
+      const events = JSON.parse(result);
+      return events.items.map(event => ({
+        name: event.metadata.name,
+        type: event.type,
+        reason: event.reason,
+        message: event.message,
+        source: event.source.component,
+        involvedObject: event.involvedObject.kind + '/' + event.involvedObject.name,
+        count: event.count,
+        firstTimestamp: event.firstTimestamp,
+        lastTimestamp: event.lastTimestamp
+      }));
+    } catch (error) {
+      console.error('Error getting cluster events:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Gets resource metrics
+   * @param {string} connectionId - Connection ID
+   * @param {string} resourceType - Resource type
+   * @param {string} [resourceName] - Resource name
+   * @param {string} [namespace] - Namespace
+   * @returns {Promise<object>} - Resource metrics
+   */
+  async getResourceMetrics(connectionId, resourceType, resourceName, namespace) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      let command = `top ${resourceType}`;
+      if (resourceName) {
+        command += ` ${resourceName}`;
+      }
+      if (namespace) {
+        command += ` -n ${namespace}`;
+      }
+      command += ' -o json';
+
+      const fullCommand = await this._buildKubectlCommand(profile, command);
+      const result = await Executor.execute(fullCommand);
+      
+      return JSON.parse(result);
+    } catch (error) {
+      console.error('Error getting resource metrics:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Gets cluster-wide resource usage
+   * @param {string} connectionId - Connection ID
+   * @returns {Promise<object>} - Cluster resource usage
+   */
+  async getClusterUsage(connectionId) {
+    try {
+      const profile = k8sConnections.get(connectionId);
+      if (!profile) {
+        throw new Error(`Connection ${connectionId} not found`);
+      }
+
+      // Get node metrics
+      const nodeMetricsCommand = await this._buildKubectlCommand(profile, 'top nodes -o json');
+      const nodeMetricsResult = await Executor.execute(nodeMetricsCommand);
+      const nodeMetrics = JSON.parse(nodeMetricsResult);
+
+      // Get pod metrics
+      const podMetricsCommand = await this._buildKubectlCommand(profile, 'top pods -o json');
+      const podMetricsResult = await Executor.execute(podMetricsCommand);
+      const podMetrics = JSON.parse(podMetricsResult);
+
+      return {
+        nodes: nodeMetrics.items.map(node => ({
+          name: node.metadata.name,
+          cpu: node.usage.cpu,
+          memory: node.usage.memory
+        })),
+        pods: podMetrics.items.map(pod => ({
+          name: pod.metadata.name,
+          namespace: pod.metadata.namespace,
+          cpu: pod.containers.reduce((sum, container) => sum + container.usage.cpu, 0),
+          memory: pod.containers.reduce((sum, container) => sum + container.usage.memory, 0)
+        }))
+      };
+    } catch (error) {
+      console.error('Error getting cluster usage:', error);
+      throw error;
+    }
   }
 };
 
