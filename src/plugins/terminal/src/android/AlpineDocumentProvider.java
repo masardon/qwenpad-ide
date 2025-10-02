@@ -1,4 +1,4 @@
-package com.foxdebug.acode.rk.exec.terminal;
+package xyz.kabarbaik.qwenpad.terminal;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Locale;
-import com.foxdebug.acode.R;
+import xyz.kabarbaik.qwenpad.R;
 
 public class AlpineDocumentProvider extends DocumentsProvider {
     

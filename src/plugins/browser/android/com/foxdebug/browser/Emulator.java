@@ -1,4 +1,4 @@
-package com.foxdebug.browser;
+package xyz.kabarbaik.qwenpad.browser;
 
 import android.content.Context;
 import android.graphics.Typeface;

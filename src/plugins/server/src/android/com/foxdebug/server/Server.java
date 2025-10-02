@@ -1,4 +1,4 @@
-package com.foxdebug.server;
+package xyz.kabarbaik.qwenpad.server;
 
 import java.io.IOException;
 import java.util.HashMap;

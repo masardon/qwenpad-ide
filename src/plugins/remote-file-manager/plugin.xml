@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android" id="xyz.kabarbaik.qwenpad.remote-file-manager" version="1.0.0">
+    <name>QwenPad Remote File Manager</name>
+   
+    <js-module name="RemoteFileManager" src="www/remotefilemanager.js">
+        <clobbers target="window.RemoteFileManager" />
+    </js-module>
+
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="RemoteFileManager">
+                <param name="android-package" value="xyz.kabarbaik.qwenpad.remotefilemanager.RemoteFileManager" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml" />
+        
+        <source-file src="src/android/RemoteFileManager.java" target-dir="src/xyz/kabarbaik/qwenpad/remotefilemanager" />
+    </platform>
+</plugin>

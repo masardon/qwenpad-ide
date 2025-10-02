@@ -1,4 +1,4 @@
-package com.foxdebug.browser;
+package xyz.kabarbaik.qwenpad.browser;
 
 import android.app.Activity;
 import android.content.Intent;

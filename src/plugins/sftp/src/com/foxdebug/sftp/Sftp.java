@@ -1,4 +1,4 @@
-package com.foxdebug.sftp;
+package xyz.kabarbaik.qwenpad.sftp;
 
 import android.app.Activity;
 import android.content.ContentResolver;

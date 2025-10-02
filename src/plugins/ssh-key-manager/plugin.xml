@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android" id="xyz.kabarbaik.qwenpad.ssh-key-manager" version="1.0.0">
+    <name>QwenPad SSH Key Manager</name>
+   
+    <js-module name="SSHKeyManager" src="www/sshkeymanager.js">
+        <clobbers target="window.SSHKeyManager" />
+    </js-module>
+
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="SSHKeyManager">
+                <param name="android-package" value="xyz.kabarbaik.qwenpad.sshkeymanager.SSHKeyManager" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml" />
+        
+        <source-file src="src/android/SSHKeyManager.java" target-dir="src/xyz/kabarbaik/qwenpad/sshkeymanager" />
+    </platform>
+</plugin>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android" id="xyz.kabarbaik.qwenpad.dependency-manager" version="1.0.0">
+    <name>QwenPad Dependency Manager</name>
+   
+    <js-module name="DependencyManager" src="www/dependencymanager.js">
+        <clobbers target="window.DependencyManager" />
+    </js-module>
+
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="DependencyManager">
+                <param name="android-package" value="xyz.kabarbaik.qwenpad.dependencymanager.DependencyManager" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml" />
+        
+        <source-file src="src/android/DependencyManager.java" target-dir="src/xyz/kabarbaik/qwenpad/dependencymanager" />
+    </platform>
+</plugin>

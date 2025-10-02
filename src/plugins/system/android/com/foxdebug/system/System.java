@@ -1,4 +1,4 @@
-package com.foxdebug.system;
+package xyz.kabarbaik.qwenpad.system;
 
 import static android.os.Build.VERSION.SDK_INT;
 

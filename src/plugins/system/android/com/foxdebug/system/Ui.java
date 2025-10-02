@@ -1,4 +1,4 @@
-package com.foxdebug.system;
+package xyz.kabarbaik.qwenpad.system;
 
 import android.content.Context;
 import android.graphics.Bitmap;

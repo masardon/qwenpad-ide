@@ -1,4 +1,4 @@
-package com.foxdebug.iap;
+package xyz.kabarbaik.qwenpad.iap;
 
 import android.app.Activity;
 import android.content.Context;

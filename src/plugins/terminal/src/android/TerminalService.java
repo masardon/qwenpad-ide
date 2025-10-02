@@ -1,4 +1,4 @@
-package com.foxdebug.acode.rk.exec.terminal;
+package xyz.kabarbaik.qwenpad.terminal;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -16,7 +16,7 @@ import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import androidx.core.app.NotificationCompat;
-import com.foxdebug.acode.R;
+import xyz.kabarbaik.qwenpad.R;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

@@ -9,7 +9,7 @@
 
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="Browser">
-        <param name="android-package" value="com.foxdebug.browser.Plugin"/>
+        <param name="android-package" value="xyz.kabarbaik.qwenpad.browser.Plugin"/>
       </feature>
     </config-file>
 
@@ -24,10 +24,10 @@
     <resource-file src="res/android/menu_enter.xml" target="res/anim/menu_enter.xml" />
     <resource-file src="res/android/menu_exit.xml" target="res/anim/menu_exit.xml" />
     <resource-file src="res/android/styles.xml" target="res/values/styles.xml" />
-    <source-file src="android/com/foxdebug/browser/Browser.java" target-dir="src/com/foxdebug/browser"/>
-    <source-file src="android/com/foxdebug/browser/BrowserActivity.java" target-dir="src/com/foxdebug/browser"/>
-    <source-file src="android/com/foxdebug/browser/Emulator.java" target-dir="src/com/foxdebug/browser"/>
-    <source-file src="android/com/foxdebug/browser/Plugin.java" target-dir="src/com/foxdebug/browser"/>
-    <source-file src="android/com/foxdebug/browser/Menu.java" target-dir="src/com/foxdebug/browser"/>
+    <source-file src="android/com/foxdebug/browser/Browser.java" target-dir="src/xyz/kabarbaik/qwenpad/browser"/>
+    <source-file src="android/com/foxdebug/browser/BrowserActivity.java" target-dir="src/xyz/kabarbaik/qwenpad/browser"/>
+    <source-file src="android/com/foxdebug/browser/Emulator.java" target-dir="src/xyz/kabarbaik/qwenpad/browser"/>
+    <source-file src="android/com/foxdebug/browser/Plugin.java" target-dir="src/xyz/kabarbaik/qwenpad/browser"/>
+    <source-file src="android/com/foxdebug/browser/Menu.java" target-dir="src/xyz/kabarbaik/qwenpad/browser"/>
   </platform>
 </plugin>

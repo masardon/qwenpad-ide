@@ -1,4 +1,4 @@
-package com.foxdebug.acode.rk.exec.terminal;
+package xyz.kabarbaik.qwenpad.terminal;
 
 import org.apache.cordova.*;
 import org.json.*;

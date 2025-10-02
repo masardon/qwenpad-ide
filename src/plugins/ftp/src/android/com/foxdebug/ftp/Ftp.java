@@ -1,4 +1,4 @@
-package com.foxdebug.ftp;
+package xyz.kabarbaik.qwenpad.ftp;
 
 import android.app.Activity;
 import android.content.Context;

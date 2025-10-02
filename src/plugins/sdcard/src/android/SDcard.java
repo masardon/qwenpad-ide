@@ -1,4 +1,4 @@
-package com.foxdebug.sdcard;
+package xyz.kabarbaik.qwenpad.sdcard;
 
 import android.app.Activity;
 import android.content.ContentResolver;

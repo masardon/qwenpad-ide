@@ -1,4 +1,4 @@
-package com.foxdebug.server;
+package xyz.kabarbaik.qwenpad.server;
 
 import android.content.ContentResolver;
 import android.content.Context;

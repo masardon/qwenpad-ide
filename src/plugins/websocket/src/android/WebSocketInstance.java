@@ -1,4 +1,4 @@
-package com.foxdebug.websocket;
+package xyz.kabarbaik.qwenpad.websocket;
 
 import android.util.Base64;
 import android.util.Log;

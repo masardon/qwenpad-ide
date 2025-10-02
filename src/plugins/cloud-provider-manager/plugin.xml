@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android" id="xyz.kabarbaik.qwenpad.cloud-provider-manager" version="1.0.0">
+    <name>QwenPad Cloud Provider Manager</name>
+   
+    <js-module name="CloudProviderManager" src="www/cloudprovidermanager.js">
+        <clobbers target="window.CloudProviderManager" />
+    </js-module>
+
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="CloudProviderManager">
+                <param name="android-package" value="xyz.kabarbaik.qwenpad.cloudprovidermanager.CloudProviderManager" />
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml" />
+        
+        <source-file src="src/android/CloudProviderManager.java" target-dir="src/xyz/kabarbaik/qwenpad/cloudprovidermanager" />
+    </platform>
+</plugin>
