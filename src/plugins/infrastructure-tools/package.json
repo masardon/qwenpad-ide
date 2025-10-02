@@ -1,10 +1,10 @@
 {
-  "name": "xyz.kabarbaik.qwenpad.infrastructure-tools",
+  "name": "xyz.kabarbaik.qwenpad.infrastructuretools",
   "version": "1.0.0",
   "description": "Infrastructure tools plugin for QwenPad IDE",
   "main": "www/infrastructuretools.js",
   "cordova": {
-    "id": "xyz.kabarbaik.qwenpad.infrastructure-tools",
+    "id": "xyz.kabarbaik.qwenpad.infrastructuretools",
     "platforms": [
       "android"
     ]

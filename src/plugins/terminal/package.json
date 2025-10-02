@@ -1,9 +1,9 @@
 {
-  "name": "com.foxdebug.acode.rk.exec.terminal",
+  "name": "xyz.kabarbaik.qwenpad.rk.exec.terminal",
   "version": "1.0.0",
   "description": "Terminal stuff",
   "cordova": {
-    "id": "com.foxdebug.acode.rk.exec.terminal",
+    "id": "xyz.kabarbaik.qwenpad.rk.exec.terminal",
     "platforms": [
       "android"
     ]

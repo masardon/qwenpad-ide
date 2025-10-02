@@ -1,10 +1,10 @@
 {
-  "name": "xyz.kabarbaik.qwenpad.k8s-manager",
+  "name": "xyz.kabarbaik.qwenpad.k8smanager",
   "version": "1.0.0",
   "description": "Kubernetes manager plugin for QwenPad IDE",
   "main": "www/k8smanager.js",
   "cordova": {
-    "id": "xyz.kabarbaik.qwenpad.k8s-manager",
+    "id": "xyz.kabarbaik.qwenpad.k8smanager",
     "platforms": [
       "android"
     ]

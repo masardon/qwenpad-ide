@@ -1,10 +1,10 @@
 {
-  "name": "xyz.kabarbaik.qwenpad.remote-development-framework",
+  "name": "xyz.kabarbaik.qwenpad.remotedevelopmentframework",
   "version": "1.0.0",
   "description": "Remote development framework plugin for QwenPad IDE",
   "main": "www/remotedevelopmentframework.js",
   "cordova": {
-    "id": "xyz.kabarbaik.qwenpad.remote-development-framework",
+    "id": "xyz.kabarbaik.qwenpad.remotedevelopmentframework",
     "platforms": [
       "android"
     ]

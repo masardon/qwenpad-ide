@@ -1,10 +1,10 @@
 {
-  "name": "xyz.kabarbaik.qwenpad.ssh-key-manager",
+  "name": "xyz.kabarbaik.qwenpad.sshkeymanager",
   "version": "1.0.0",
   "description": "SSH key manager plugin for QwenPad IDE",
   "main": "www/sshkeymanager.js",
   "cordova": {
-    "id": "xyz.kabarbaik.qwenpad.ssh-key-manager",
+    "id": "xyz.kabarbaik.qwenpad.sshkeymanager",
     "platforms": [
       "android"
     ]

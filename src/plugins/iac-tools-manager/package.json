@@ -1,10 +1,10 @@
 {
-  "name": "xyz.kabarbaik.qwenpad.iac-tools-manager",
+  "name": "xyz.kabarbaik.qwenpad.iactoolsmanager",
   "version": "1.0.0",
   "description": "Infrastructure as Code tools manager plugin for QwenPad IDE",
   "main": "www/iactoolsmanager.js",
   "cordova": {
-    "id": "xyz.kabarbaik.qwenpad.iac-tools-manager",
+    "id": "xyz.kabarbaik.qwenpad.iactoolsmanager",
     "platforms": [
       "android"
     ]

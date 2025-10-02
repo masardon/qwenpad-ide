@@ -1,10 +1,10 @@
 {
-  "name": "xyz.kabarbaik.qwenpad.k8s-dashboard",
+  "name": "xyz.kabarbaik.qwenpad.k8sdashboard",
   "version": "1.0.0",
   "description": "Kubernetes dashboard plugin for QwenPad IDE",
   "main": "www/k8sdashboard.js",
   "cordova": {
-    "id": "xyz.kabarbaik.qwenpad.k8s-dashboard",
+    "id": "xyz.kabarbaik.qwenpad.k8sdashboard",
     "platforms": [
       "android"
     ]

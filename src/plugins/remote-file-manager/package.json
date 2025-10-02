@@ -1,10 +1,10 @@
 {
-  "name": "xyz.kabarbaik.qwenpad.remote-file-manager",
+  "name": "xyz.kabarbaik.qwenpad.remotefilemanager",
   "version": "1.0.0",
   "description": "Remote file manager plugin for QwenPad IDE",
   "main": "www/remotefilemanager.js",
   "cordova": {
-    "id": "xyz.kabarbaik.qwenpad.remote-file-manager",
+    "id": "xyz.kabarbaik.qwenpad.remotefilemanager",
     "platforms": [
       "android"
     ]

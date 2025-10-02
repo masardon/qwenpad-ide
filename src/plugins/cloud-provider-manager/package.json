@@ -1,10 +1,10 @@
 {
-  "name": "xyz.kabarbaik.qwenpad.cloud-provider-manager",
+  "name": "xyz.kabarbaik.qwenpad.cloudprovidermanager",
   "version": "1.0.0",
   "description": "Cloud provider manager plugin for QwenPad IDE",
   "main": "www/cloudprovidermanager.js",
   "cordova": {
-    "id": "xyz.kabarbaik.qwenpad.cloud-provider-manager",
+    "id": "xyz.kabarbaik.qwenpad.cloudprovidermanager",
     "platforms": [
       "android"
     ]

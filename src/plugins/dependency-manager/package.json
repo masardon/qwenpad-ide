@@ -1,10 +1,10 @@
 {
-  "name": "xyz.kabarbaik.qwenpad.dependency-manager",
+  "name": "xyz.kabarbaik.qwenpad.dependencymanager",
   "version": "1.0.0",
   "description": "Dependency manager plugin for QwenPad IDE",
   "main": "www/dependencymanager.js",
   "cordova": {
-    "id": "xyz.kabarbaik.qwenpad.dependency-manager",
+    "id": "xyz.kabarbaik.qwenpad.dependencymanager",
     "platforms": [
       "android"
     ]
