@@ -1,0 +1,18 @@
+{
+  "name": "xyz.kabarbaik.qwenpad.scaffolding",
+  "version": "1.0.0",
+  "description": "Project scaffolding plugin for QwenPad IDE",
+  "main": "www/scaffolding.js",
+  "cordova": {
+    "id": "xyz.kabarbaik.qwenpad.scaffolding",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "QwenPad Team",
+  "license": "MIT"
+}
