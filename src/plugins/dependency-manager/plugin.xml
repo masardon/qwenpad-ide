@@ -15,6 +15,6 @@
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml" />
         
-        <source-file src="src/android/DependencyManager.java" target-dir="src/xyz/kabarbaik/qwenpad/dependencymanager" />
+        <source-file src="src/android/DependencyManager.java" target-dir="src/com/foxdebug/dependencymanager" />
     </platform>
 </plugin>

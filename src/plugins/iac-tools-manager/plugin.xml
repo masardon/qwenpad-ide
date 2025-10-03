@@ -15,6 +15,6 @@
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml" />
         
-        <source-file src="src/android/IaCToolsManager.java" target-dir="src/xyz/kabarbaik/qwenpad/iactoolsmanager" />
+        <source-file src="src/android/IaCToolsManager.java" target-dir="src/com/foxdebug/iactoolsmanager" />
     </platform>
 </plugin>

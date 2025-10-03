@@ -18,6 +18,6 @@
             </feature>
         </config-file>
 
-        <source-file src="src/android/Git.java" target-dir="src/xyz/kabarbaik/qwenpad/git" />
+        <source-file src="src/android/Git.java" target-dir="src/com/foxdebug/git" />
     </platform>
 </plugin>

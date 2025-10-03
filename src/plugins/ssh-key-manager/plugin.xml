@@ -15,6 +15,6 @@
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml" />
         
-        <source-file src="src/android/SSHKeyManager.java" target-dir="src/xyz/kabarbaik/qwenpad/sshkeymanager" />
+        <source-file src="src/android/SSHKeyManager.java" target-dir="src/com/foxdebug/sshkeymanager" />
     </platform>
 </plugin>

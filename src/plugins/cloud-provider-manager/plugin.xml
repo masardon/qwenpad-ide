@@ -15,6 +15,6 @@
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml" />
         
-        <source-file src="src/android/CloudProviderManager.java" target-dir="src/xyz/kabarbaik/qwenpad/cloudprovidermanager" />
+        <source-file src="src/android/CloudProviderManager.java" target-dir="src/com/foxdebug/cloudprovidermanager" />
     </platform>
 </plugin>

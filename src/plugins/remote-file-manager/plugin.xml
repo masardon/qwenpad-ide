@@ -15,6 +15,6 @@
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml" />
         
-        <source-file src="src/android/RemoteFileManager.java" target-dir="src/xyz/kabarbaik/qwenpad/remotefilemanager" />
+        <source-file src="src/android/RemoteFileManager.java" target-dir="src/com/foxdebug/remotefilemanager" />
     </platform>
 </plugin>
