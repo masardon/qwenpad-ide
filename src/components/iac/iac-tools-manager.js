@@ -1,14 +1,15 @@
 /**
- * IaC Tools Manager for QwenPad IDE
- * Manages Infrastructure as Code tools like Terraform, Ansible, CloudFormation, etc.
+ * Infrastructure as Code (IaC) Tools Manager UI for QwenPad IDE
+ * Provides interface for managing IaC tools like Terraform, Ansible, CloudFormation, etc.
  */
 
-import Executor from '../plugins/terminal/www/Executor';
+import IaCToolsManager from '../../plugins/iac-tools-manager/www/iactoolsmanager';
 import toast from '../components/toast';
 
-export default class IaCToolsManager {
+export default class IaCToolsUI {
   constructor(container) {
     this.container = container;
+    this.manager = new IaCToolsManager();
     this.tools = [];
     this.installedTools = [];
     
@@ -16,165 +17,12 @@ export default class IaCToolsManager {
   }
 
   _initialize() {
-    // Define available IaC tools
-    this.tools = [
-      {
-        id: 'terraform',
-        name: 'Terraform',
-        description: 'Infrastructure as Code tool for provisioning and managing cloud resources',
-        url: 'https://www.terraform.io/',
-        icon: 'language',
-        category: 'iac',
-        commands: ['terraform init', 'terraform plan', 'terraform apply', 'terraform destroy'],
-        installation: {
-          termux: 'pkg install terraform',
-          linux: 'curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -',
-          mac: 'brew tap hashicorp/tap && brew install hashicorp/tap/terraform',
-          windows: 'choco install terraform'
-        }
-      },
-      {
-        id: 'ansible',
-        name: 'Ansible',
-        description: 'Simple, agentless automation for IT orchestration, configuration management, and application deployment',
-        url: 'https://www.ansible.com/',
-        icon: 'account_tree',
-        category: 'configuration',
-        commands: ['ansible-playbook', 'ansible', 'ansible-vault', 'ansible-galaxy'],
-        installation: {
-          termux: 'pkg install ansible',
-          linux: 'apt install ansible',
-          mac: 'brew install ansible',
-          windows: 'pip install ansible'
-        }
-      },
-      {
-        id: 'pulumi',
-        name: 'Pulumi',
-        description: 'Modern infrastructure as code platform that allows you to use familiar languages',
-        url: 'https://www.pulumi.com/',
-        icon: 'code',
-        category: 'iac',
-        commands: ['pulumi up', 'pulumi destroy', 'pulumi stack', 'pulumi preview'],
-        installation: {
-          termux: 'curl -fsSL https://get.pulumi.com | sh',
-          linux: 'curl -fsSL https://get.pulumi.com | sh',
-          mac: 'brew install pulumi',
-          windows: 'choco install pulumi'
-        }
-      },
-      {
-        id: 'cloudformation',
-        name: 'AWS CloudFormation',
-        description: 'Amazon Web Services infrastructure as code service',
-        url: 'https://aws.amazon.com/cloudformation/',
-        icon: 'cloud',
-        category: 'cloud',
-        commands: ['aws cloudformation create-stack', 'aws cloudformation update-stack', 'aws cloudformation delete-stack'],
-        installation: {
-          termux: 'pkg install aws-cli',
-          linux: 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"',
-          mac: 'brew install aws-cli',
-          windows: 'msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi'
-        }
-      },
-      {
-        id: 'azure-cli',
-        name: 'Azure CLI',
-        description: 'Microsoft Azure command-line interface',
-        url: 'https://docs.microsoft.com/cli/azure/',
-        icon: 'cloud',
-        category: 'cloud',
-        commands: ['az group create', 'az deployment group create', 'az group delete'],
-        installation: {
-          termux: 'pkg install azure-cli',
-          linux: 'curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash',
-          mac: 'brew install azure-cli',
-          windows: 'curl -L https://aka.ms/InstallAzureCliWindows -o AzureCLI.msi'
-        }
-      },
-      {
-        id: 'gcloud',
-        name: 'Google Cloud CLI',
-        description: 'Google Cloud command-line interface',
-        url: 'https://cloud.google.com/sdk/gcloud',
-        icon: 'cloud',
-        category: 'cloud',
-        commands: ['gcloud compute instances create', 'gcloud deployments create', 'gcloud compute instances delete'],
-        installation: {
-          termux: 'pkg install google-cloud-sdk',
-          linux: 'curl https://sdk.cloud.google.com | bash',
-          mac: 'brew cask install google-cloud-sdk',
-          windows: 'msiexec.exe /i https://dl.google.com/dl/cloudsdk/release/GoogleCloudSDKInstaller.exe'
-        }
-      },
-      {
-        id: 'helm',
-        name: 'Helm',
-        description: 'The package manager for Kubernetes',
-        url: 'https://helm.sh/',
-        icon: 'directions_boat',
-        category: 'k8s',
-        commands: ['helm install', 'helm upgrade', 'helm uninstall', 'helm list'],
-        installation: {
-          termux: 'pkg install helm',
-          linux: 'curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash',
-          mac: 'brew install helm',
-          windows: 'choco install kubernetes-helm'
-        }
-      },
-      {
-        id: 'packer',
-        name: 'Packer',
-        description: 'Tool for creating identical machine images for multiple platforms',
-        url: 'https://www.packer.io/',
-        icon: 'layers',
-        category: 'image-building',
-        commands: ['packer build', 'packer validate', 'packer inspect'],
-        installation: {
-          termux: 'pkg install packer',
-          linux: 'curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -',
-          mac: 'brew tap hashicorp/tap && brew install hashicorp/tap/packer',
-          windows: 'choco install packer'
-        }
-      }
-    ];
-    
-    // Check which tools are installed
-    this._checkInstalledTools();
+    // Load available and installed tools
+    this.tools = this.manager.getTools();
+    this.installedTools = this.manager.getInstalledTools();
     
     // Create the UI elements
     this._createUI();
-  }
-
-  _checkInstalledTools() {
-    // In a real implementation, we would check if the tools are installed
-    // For now, we'll just simulate checking
-    this.installedTools = [];
-    
-    this.tools.forEach(tool => {
-      // Simulate checking if tool is installed
-      const isInstalled = this._isToolInstalled(tool.id);
-      if (isInstalled) {
-        this.installedTools.push({
-          ...tool,
-          installed: true,
-          version: this._getToolVersion(tool.id)
-        });
-      }
-    });
-  }
-
-  _isToolInstalled(toolId) {
-    // In a real implementation, we would check if the tool is available
-    // For now, we'll return false for all tools
-    return false;
-  }
-
-  _getToolVersion(toolId) {
-    // In a real implementation, we would get the tool version
-    // For now, we'll return a placeholder
-    return 'unknown';
   }
 
   _createUI() {
@@ -209,7 +57,7 @@ export default class IaCToolsManager {
           style: { display: 'flex', alignItems: 'center', gap: '8px' },
           children: [
             tag('span', { 
-              className: 'icon language', 
+              className: 'icon construction', 
               style: { fontSize: '1.2em' } 
             }),
             tag('span', {
@@ -304,6 +152,61 @@ export default class IaCToolsManager {
       }
     });
 
+    // Action buttons
+    this.$actions = tag('div', {
+      className: 'iac-actions',
+      style: {
+        padding: '8px 16px',
+        borderTop: '1px solid var(--bdr-color)',
+        backgroundColor: 'var(--input-container-bg, #f8f9fa)',
+        display: 'flex',
+        gap: '8px',
+        flexWrap: 'wrap'
+      },
+      children: [
+        tag('button', {
+          textContent: 'Refresh',
+          onclick: () => this._refresh(),
+          style: {
+            padding: '4px 8px',
+            border: '1px solid var(--bdr-color)',
+            borderRadius: '4px',
+            backgroundColor: 'var(--btn-bg)',
+            color: 'var(--btn-txt-color)',
+            cursor: 'pointer',
+            fontSize: '0.9em'
+          }
+        }),
+        tag('button', {
+          textContent: 'Install All',
+          onclick: () => this._installAll(),
+          style: {
+            padding: '4px 8px',
+            border: '1px solid var(--primary-color)',
+            borderRadius: '4px',
+            backgroundColor: 'var(--primary-color)',
+            color: 'white',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            fontSize: '0.9em'
+          }
+        }),
+        tag('button', {
+          textContent: 'Update All',
+          onclick: () => this._updateAll(),
+          style: {
+            padding: '4px 8px',
+            border: '1px solid var(--bdr-color)',
+            borderRadius: '4px',
+            backgroundColor: 'var(--btn-bg)',
+            color: 'var(--btn-txt-color)',
+            cursor: 'pointer',
+            fontSize: '0.9em'
+          }
+        })
+      ]
+    });
+
     // Status bar
     this.$statusBar = tag('div', {
       className: 'iac-status-bar',
@@ -331,6 +234,7 @@ export default class IaCToolsManager {
     this.$iacContainer.appendChild(this.$header);
     this.$iacContainer.appendChild(this.$tabs);
     this.$iacContainer.appendChild(this.$contentArea);
+    this.$iacContainer.appendChild(this.$actions);
     this.$iacContainer.appendChild(this.$statusBar);
 
     // Add to container
@@ -382,7 +286,7 @@ export default class IaCToolsManager {
           },
           children: [
             tag('div', {
-              className: 'icon language',
+              className: 'icon construction',
               style: {
                 fontSize: '3em',
                 marginBottom: '16px',
@@ -404,7 +308,7 @@ export default class IaCToolsManager {
               }
             }),
             tag('button', {
-              textContent: 'View Available Tools',
+              textContent: '+ Install Tools',
               onclick: () => this._switchTab('available'),
               style: {
                 padding: '8px 16px',
@@ -432,7 +336,7 @@ export default class IaCToolsManager {
     });
 
     this.installedTools.forEach(tool => {
-      const $toolCard = this._createToolCard(tool);
+      const $toolCard = this._createToolCard(tool, true);
       $grid.appendChild($toolCard);
     });
 
@@ -452,7 +356,8 @@ export default class IaCToolsManager {
     });
 
     this.tools.forEach(tool => {
-      const $toolCard = this._createToolCard(tool);
+      const isInstalled = this.installedTools.some(t => t.id === tool.id);
+      const $toolCard = this._createToolCard(tool, isInstalled);
       $grid.appendChild($toolCard);
     });
 
@@ -606,9 +511,7 @@ export default class IaCToolsManager {
     );
   }
 
-  _createToolCard(tool) {
-    const isInstalled = this.installedTools.some(t => t.id === tool.id);
-    
+  _createToolCard(tool, isInstalled) {
     return tag('div', {
       className: 'iac-tool-card',
       style: {
@@ -706,174 +609,98 @@ export default class IaCToolsManager {
     });
   }
 
-  _installTool(tool) {
-    toast(`Installing ${tool.name}...`, 'info');
-    
-    // In a real implementation, we would execute the installation command
-    // For now, we'll just show the installation instructions
-    this._showInstallationInstructions(tool);
+  async _installTool(tool) {
+    try {
+      this._updateStatusBar(`Installing ${tool.name}...`, 'installing');
+      
+      // Install the tool using the manager
+      await this.manager.installTool(tool.id);
+      
+      toast(`${tool.name} installed successfully!`, 'success');
+      
+      // Refresh the tool list
+      this._refresh();
+    } catch (error) {
+      console.error('Error installing tool:', error);
+      toast(`Error installing ${tool.name}: ${error.message}`, 'error');
+      this._updateStatusBar(`Failed to install ${tool.name}`, 'error');
+    }
   }
 
-  _openTool(tool) {
+  async _openTool(tool) {
     toast(`Opening ${tool.name}...`, 'info');
     
     // This would open the tool or show more options
-    // For now, we'll just show a message
+    // For now, just show a message
     toast(`${tool.name} opened`, 'success');
   }
 
-  _showInstallationInstructions(tool) {
-    // Create modal with installation instructions
-    const $modal = tag('div', {
-      style: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1000
-      }
-    });
-
-    const $dialog = tag('div', {
-      style: {
-        backgroundColor: 'var(--bg-color)',
-        borderRadius: '8px',
-        padding: '24px',
-        maxWidth: '500px',
-        width: '90%',
-        maxHeight: '90vh',
-        overflowY: 'auto'
-      },
-      children: [
-        tag('div', {
-          style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' },
-          children: [
-            tag('h3', {
-              textContent: `Install ${tool.name}`,
-              style: { margin: 0 }
-            }),
-            tag('button', {
-              innerHTML: '&times;',
-              onclick: () => document.body.removeChild($modal),
-              style: {
-                background: 'none',
-                border: 'none',
-                fontSize: '1.5em',
-                cursor: 'pointer',
-                color: 'var(--txt-color)',
-                padding: '0',
-                width: '24px',
-                height: '24px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }
-            })
-          ]
-        }),
-        tag('div', {
-          textContent: tool.description,
-          style: {
-            marginBottom: '16px',
-            color: 'var(--txt-secondary-color)'
-          }
-        }),
-        tag('div', {
-          style: {
-            marginBottom: '16px'
-          },
-          children: [
-            tag('h4', {
-              textContent: 'Installation Methods',
-              style: { margin: '0 0 12px 0' }
-            })
-          ]
-        }),
-        tag('div', {
-          children: Object.entries(tool.installation).map(([platform, command]) => 
-            tag('div', {
-              style: { marginBottom: '12px' },
-              children: [
-                tag('div', {
-                  style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' },
-                  children: [
-                    tag('strong', { textContent: platform.charAt(0).toUpperCase() + platform.slice(1) }),
-                    tag('button', {
-                      textContent: 'Copy',
-                      onclick: () => this._copyToClipboard(command),
-                      style: {
-                        padding: '2px 8px',
-                        border: '1px solid var(--bdr-color)',
-                        borderRadius: '4px',
-                        backgroundColor: 'var(--btn-bg)',
-                        color: 'var(--btn-txt-color)',
-                        cursor: 'pointer',
-                        fontSize: '0.8em'
-                      }
-                    })
-                  ]
-                }),
-                tag('div', {
-                  textContent: command,
-                  style: {
-                    fontFamily: 'monospace',
-                    fontSize: '0.8em',
-                    backgroundColor: 'var(--input-bg)',
-                    color: 'var(--txt-color)',
-                    padding: '8px',
-                    borderRadius: '4px',
-                    overflowX: 'auto'
-                  }
-                })
-              ]
-            })
-          )
-        }),
-        tag('button', {
-          textContent: 'Close',
-          onclick: () => document.body.removeChild($modal),
-          style: {
-            padding: '8px 16px',
-            border: '1px solid var(--bdr-color)',
-            borderRadius: '4px',
-            backgroundColor: 'var(--btn-bg)',
-            color: 'var(--btn-txt-color)',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-            marginTop: '16px'
-          }
-        })
-      ]
-    });
-
-    $modal.appendChild($dialog);
-    document.body.appendChild($modal);
+  async _installAll() {
+    try {
+      this._updateStatusBar('Installing all tools...', 'installing');
+      
+      // Install all available tools
+      await this.manager.installAllTools();
+      
+      toast('All tools installed successfully!', 'success');
+      
+      // Refresh the tool list
+      this._refresh();
+    } catch (error) {
+      console.error('Error installing all tools:', error);
+      toast(`Error installing tools: ${error.message}`, 'error');
+      this._updateStatusBar('Failed to install tools', 'error');
+    }
   }
 
-  _copyToClipboard(text) {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(() => {
-        toast('Copied to clipboard!', 'success');
-      });
-    } else {
-      const textArea = tag('textarea', {
-        value: text,
-        style: {
-          position: 'absolute',
-          left: '-9999px',
-          top: '-9999px'
+  async _updateAll() {
+    try {
+      this._updateStatusBar('Updating all tools...', 'updating');
+      
+      // Update all installed tools
+      await this.manager.updateAllTools();
+      
+      toast('All tools updated successfully!', 'success');
+      
+      // Refresh the tool list
+      this._refresh();
+    } catch (error) {
+      console.error('Error updating all tools:', error);
+      toast(`Error updating tools: ${error.message}`, 'error');
+      this._updateStatusBar('Failed to update tools', 'error');
+    }
+  }
+
+  async _refresh() {
+    try {
+      this._updateStatusBar('Refreshing tools...', 'loading');
+      
+      // Refresh available and installed tools
+      this.tools = this.manager.getTools();
+      this.installedTools = this.manager.getInstalledTools();
+      
+      // Update status bar
+      document.getElementById('iac-status-text').textContent = 
+        `Available: ${this.tools.length} tools | Installed: ${this.installedTools.length} tools`;
+      
+      this._updateStatusBar('Tools refreshed', 'success');
+      
+      // Re-render current tab
+      const activeTab = document.querySelector('.iac-tab.active');
+      if (activeTab) {
+        const tabId = activeTab.id;
+        if (tabId === 'iac-installed-tab') {
+          this._renderInstalledTools();
+        } else if (tabId === 'iac-available-tab') {
+          this._renderAvailableTools();
+        } else if (tabId === 'iac-templates-tab') {
+          this._renderTemplates();
         }
-      });
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      toast('Copied to clipboard!', 'success');
+      }
+    } catch (error) {
+      console.error('Error refreshing tools:', error);
+      toast('Error refreshing tools', 'error');
+      this._updateStatusBar('Failed to refresh tools', 'error');
     }
   }
 
@@ -912,9 +739,7 @@ export default class IaCToolsManager {
               children: [
                 tag('h3', {
                   textContent: category.name,
-                  style: {
-                    margin: 0
-                  }
+                  style: { margin: 0 }
                 }),
                 tag('div', {
                   textContent: category.description,
@@ -1043,6 +868,33 @@ export default class IaCToolsManager {
     // This would show a preview of the template
     // For now, just show a message
     toast(`Preview of ${template.name}`, 'info');
+  }
+
+  _updateStatusBar(text, status) {
+    const statusElement = document.getElementById('iac-status-text');
+    if (statusElement) {
+      statusElement.textContent = text;
+      
+      // Update status color based on status type
+      switch (status) {
+        case 'ready':
+          statusElement.style.color = 'var(--txt-secondary-color)';
+          break;
+        case 'installing':
+        case 'updating':
+        case 'loading':
+          statusElement.style.color = 'var(--warning-color, #ffa502)';
+          break;
+        case 'success':
+          statusElement.style.color = 'var(--success-color, #2ed573)';
+          break;
+        case 'error':
+          statusElement.style.color = 'var(--error-color, #ff4757)';
+          break;
+        default:
+          statusElement.style.color = 'var(--txt-secondary-color)';
+      }
+    }
   }
 
   open() {

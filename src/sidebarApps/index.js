@@ -89,6 +89,8 @@ async function loadApps() {
 	} catch (e) {
 		console.warn("Could not load QwenPad IDE features:", e);
                 add(...(await import("./ssh/ssh-key-manager")).default);
+                add(...(await import("./iac/iac-tools-manager")).default);
+                add(...(await import("./platform/platform-tools-manager")).default);
                 add(...(await import("./terminal/enhanced-terminal-manager")).default);
                 add(...(await import("./iac/iac-tools-manager")).default);
                 add(...(await import("./infrastructure/remote-execution-framework")).default);

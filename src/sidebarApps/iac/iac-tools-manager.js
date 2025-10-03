@@ -1,5 +1,5 @@
 /**
- * Infrastructure as Code (IaC) Tools Sidebar App for QwenPad IDE
+ * IaC Tools Manager Sidebar App for QwenPad IDE
  */
 
 import IaCToolsManager from '../../components/iac/iac-tools-manager';
